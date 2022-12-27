@@ -1,12 +1,7 @@
 package hello.servlet.web.frontcontroller.v4.controller;
 
 
-import hello.servlet.web.frontcontroller.ModelView;
 import hello.servlet.web.frontcontroller.MyView;
-import hello.servlet.web.frontcontroller.v3.ControllerV3;
-import hello.servlet.web.frontcontroller.v3.controller.MemberFormControllerV3;
-import hello.servlet.web.frontcontroller.v3.controller.MemberListControllerV3;
-import hello.servlet.web.frontcontroller.v3.controller.MemberSaveControllerV3;
 import hello.servlet.web.frontcontroller.v4.ControllerV4;
 
 import javax.servlet.ServletException;
@@ -19,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet(name = "frontControllerServletV4", urlPatterns = "/front-controller/v4/*")
-public class FrontControllerServletV4 extends HttpServlet {
+class FrontControllerServletV4 extends HttpServlet {
 
     private Map<String, ControllerV4> controllerMap = new HashMap<>();
 
@@ -42,11 +37,11 @@ public class FrontControllerServletV4 extends HttpServlet {
 
         //paramMap
         Map<String, String> paramMap = createParamMap(request);
-        ModelView mv = controller.process(paramMap);
-        String viewName = mv.getViewName(); //논리이름 new-form
+        Map<String, Object> model = new HashMap<>();
+        String viewName = controller.process(paramMap, model);
 
         MyView view = viewResolver(viewName);
-        view.render(mv.getModel(), request, response);
+        view.render(model, request, response);
 
     }
 
